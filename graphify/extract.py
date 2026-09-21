@@ -53,6 +53,7 @@ from graphify.extractors.markdown import extract_markdown, _MD_LINK_INDEX_CACHE 
 from graphify.extractors.ocaml import extract_ocaml  # noqa: F401
 from graphify.extractors.pascal_forms import extract_delphi_form, extract_lazarus_form  # noqa: F401
 from graphify.extractors.powershell import extract_powershell, extract_powershell_manifest  # noqa: F401
+from graphify.extractors.r import extract_r, resolve_r_sourced_calls  # noqa: F401
 from graphify.extractors.razor import extract_razor  # noqa: F401
 from graphify.extractors.robot import extract_robot  # noqa: F401
 from graphify.extractors.rust import extract_rust  # noqa: F401
@@ -2763,6 +2764,7 @@ _LANG_FAMILY_BY_EXT: dict[str, str] = {
     ".py": "python",
     ".go": "go",
     ".rs": "rust",
+    ".r": "r",
     ".rb": "ruby", ".rake": "ruby",
     ".php": "php", ".phtml": "php", ".php3": "php", ".php4": "php",
     ".php5": "php", ".php7": "php", ".phps": "php",
@@ -5195,6 +5197,9 @@ register_language_resolver(
     LanguageResolver("rust_self_member_calls", frozenset({".rs"}), _resolve_rust_self_member_calls)
 )
 register_language_resolver(
+    LanguageResolver("r_sourced_calls", frozenset({".r", ".R"}), resolve_r_sourced_calls)
+)
+register_language_resolver(
     LanguageResolver(
         "elixir_import_targets",
         frozenset({".ex", ".exs"}),
@@ -6279,6 +6284,7 @@ _DISPATCH: dict[str, Any] = {
     ".cts": extract_js,
     ".go": extract_go,
     ".rs": extract_rust,
+    ".r": extract_r,
     ".java": extract_java,
     ".groovy": extract_groovy,
     ".gradle": extract_groovy,
@@ -6378,6 +6384,7 @@ _DISPATCH: dict[str, Any] = {
 # rather than falling back like Pascal does. Used by the #1745 warning in
 # extract() to tell the user which extra restores the language.
 _EXTRA_FOR_EXTENSION = {
+    ".r": "r",
     ".sql": "sql",
     ".tf": "terraform",
     ".tfvars": "terraform",
@@ -6423,6 +6430,7 @@ _SHEBANG_DISPATCH: dict[str, Any] = {
     "lua": extract_lua,
     "php": extract_php,
     "julia": extract_julia,
+    "Rscript": extract_r,
 }
 
 
@@ -6986,7 +6994,7 @@ def extract(
                 _failed_seen.add(_key)
 
     # #1689: a file counted as code (extension in CODE_EXTENSIONS) but with no AST
-    # extractor wired up (e.g. .r/.R — there is no tree-sitter-r dispatch) silently
+    # extractor wired up (e.g. .ets — there is no ArkTS dispatch) silently
     # contributes zero nodes. The #1666 warning above deliberately skips these (it
     # only fires when an extractor exists), so surface them explicitly, grouped by
     # extension, rather than reporting success as if the language were mapped.
