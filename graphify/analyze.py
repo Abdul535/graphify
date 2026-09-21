@@ -41,6 +41,7 @@ _LANG_FAMILY: dict[str, str] = {
     **{e: "dotnet" for e in (".cs",)},
     **{e: "php" for e in (".php",)},
     **{e: "r" for e in (".r",)},
+    **{e: "solidity" for e in (".sol",)},
 }
 
 

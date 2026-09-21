@@ -29,6 +29,7 @@ from graphify.extractors.powershell import extract_powershell, extract_powershel
 from graphify.extractors.razor import extract_razor
 from graphify.extractors.rust import extract_rust
 from graphify.extractors.sln import extract_sln
+from graphify.extractors.solidity import extract_solidity
 from graphify.extractors.sql import extract_sql
 from graphify.extractors.terraform import extract_terraform
 from graphify.extractors.verilog import extract_verilog
@@ -59,6 +60,7 @@ LANGUAGE_EXTRACTORS: dict[str, Callable[[Path], dict]] = {
     "razor": extract_razor,
     "rust": extract_rust,
     "sln": extract_sln,
+    "solidity": extract_solidity,
     "sql": extract_sql,
     "terraform": extract_terraform,
     "verilog": extract_verilog,
