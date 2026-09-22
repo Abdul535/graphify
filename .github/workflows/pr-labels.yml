@@ -1,9 +1,9 @@
 name: PR Labels
 
-# This workflow needs a write-capable token for fork pull requests. It runs in
-# the base repository's context and never checks out or executes PR code.
+# Temporary fork integration test: same-repository pull_request events can use
+# the explicitly scoped token, and checkout makes the PR's label rules available.
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Check out label configuration for fork test
+        uses: actions/checkout@v6
+
       - name: Apply scope labels
         uses: actions/labeler@v7
         with:
