@@ -4,18 +4,18 @@
 # later PR update no longer matches. Labels outside this file are never managed
 # by actions/labeler.
 
-"area: core":
+"area/core":
   - changed-files:
       - any-glob-to-any-file:
           - "graphify/*.py"
           - "graphify/**/*.py"
 
-"area: extractors":
+"area/extractors":
   - changed-files:
       - any-glob-to-any-file:
           - "graphify/extractors/**"
 
-"area: skills":
+"area/skills":
   - changed-files:
       - any-glob-to-any-file:
           - "graphify/skill*.md"
@@ -24,29 +24,29 @@
           - "graphify/always_on/**"
           - "tools/skillgen/**"
 
-"area: tools":
+"area/tools":
   - changed-files:
       - any-glob-to-any-file:
           - "tools/**"
           - "scripts/**"
 
-"area: tests":
+"area/tests":
   - changed-files:
       - any-glob-to-any-file:
           - "tests/**"
 
-"area: docs":
+"area/docs":
   - changed-files:
       - any-glob-to-any-file:
           - "docs/**"
           - "*.md"
 
-"area: ci":
+"area/ci":
   - changed-files:
       - any-glob-to-any-file:
           - ".github/**"
 
-"area: packaging":
+"area/packaging":
   - changed-files:
       - any-glob-to-any-file:
           - "pyproject.toml"
